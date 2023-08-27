@@ -1,0 +1,7 @@
+{
+  "name": "express app - development",
+  "sms": {
+    "host": "1.1.1.1",
+    "port": "3000"
+  }
+}

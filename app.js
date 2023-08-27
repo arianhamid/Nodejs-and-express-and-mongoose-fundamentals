@@ -9,10 +9,30 @@ const config = require("config");
 
 app.use(bodyParser.json()); // parse requests of content-type - application/json
 app.use(bodyParser.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
-
+app.use(express.static("public")); // serve static files
+// custom middleware example
+// app.use((req, res, next) => {
+//   req.user = {id:1, email:"hhh@gg.com"}
+//   next()
+// })
+app.use(helmet());
 app.get("/api/users", (req, res) => {
   res.json({ data: users, message: "ok" });
 });
+
+// get the environment phase variable
+// console.log("NODE_ENV:", process.env.NODE_ENV);
+// console.log("NODE_ENV:", app.get("env"));
+// $env: NODE_ENV="production"        run this code in cmd for change environment
+if (app.get("env") == "development") {
+  console.log("morgen is active");
+  app.use(morgan("tiny"));
+}
+
+// example of using config middleware
+// console.log("environment name:", config.get("name"));
+// console.log("environment name:", config.get("version"));
+// console.log("environment name:", config.get("sms"));
 
 app.get("/api/users/:id", (req, res) => {
   const user = users.find((user) => user.id === parseInt(req.params.id));
@@ -85,9 +105,5 @@ app.delete("/api/users/:id", (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`server listening on port ${port}`));
 
-// get the environment variables
-// console.log("NODE_ENV:", process.env.NODE_ENV);
-// console.log("NODE_ENV:", app.get("env"));
-
 // $env: PORT = 1366;
-// set PORT = 1366  //not work
+// set PORT=1366  //not work
