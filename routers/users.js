@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../users");
+let users = require("../users");
 const { body, validationResult } = require("express-validator");
 
 router.get("/", (req, res) => {
@@ -54,13 +54,13 @@ router.put(
     if (!user) {
       return res.status(404).json({ data: null, message: "user not found" });
     }
-    const newUsers = users.map((user) => {
+    users = users.map((user) => {
       if (user.id === parseInt(req.params.id)) {
         return { ...user, ...req.body };
       }
       return user;
     });
-    res.json({ data: newUsers, message: "user updated" });
+    res.json({ data: users, message: "user updated" });
   }
 );
 
