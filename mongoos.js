@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
-var uri = "mongodb://127.0.0.1:27017/details";
+var uri = "mongodb://127.0.0.1:27017/test";
 const port = 4000;
 
 app.listen(port, function () {
@@ -10,6 +10,7 @@ app.listen(port, function () {
 });
 
 const connectDB = async () => {
+  //The connection.once() method is a function in the MongoDB driver
   // connection.once("open", function () {
   //   console.log("MongoDB database connection established successfully");
   // });
@@ -32,8 +33,8 @@ const disconnectDB = async () => {
     console.error(error);
   }
 };
-// before adding data to the database validate the entered properties
-// required
+
+//in schema you can validate the received properties from client then add them into the database
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -52,8 +53,8 @@ const userSchema = new mongoose.Schema({
       return this.admin;
     }, // this means if the user admin was true then property is required. note that you can not use arrow functions in the Schema class
   },
-  // set property change the value before creating user in database
-  // get property change the value after reading that specific field from document(console.log(user.salary))
+  // set property: change the value before creating user in database
+  // get property: change the value after reading that specific field from document(console.log(user.salary))
   salary: {
     type: String,
     set: (v) => Math.round(v),
@@ -71,7 +72,7 @@ const userSchema = new mongoose.Schema({
   admin: Boolean,
   favorites: {
     type: [String],
-    // an array of strings and the entered values must be one of enum array elements
+    // an array of elements that the entered values must be one of them
     enum: ["sport", "watching movies", "playing games", "codding", "reading"],
     // you can create a custom validator in two ways
     // validate: function (value) {
@@ -247,8 +248,8 @@ async function deleteUser(id) {
   }
 }
 
-// createUser();
-findUserById("64eb4db08078fdf78f3c8ae8");
+createUser();
+// findUserById("64eb4db08078fdf78f3c8ae8");
 // findUsersByAge(25, 35);
 // findUsersByAgeInList([25, 29, 35]);
 // getUsersPagination()

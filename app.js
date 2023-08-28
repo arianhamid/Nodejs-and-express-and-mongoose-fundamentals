@@ -6,12 +6,11 @@ const homeRouter = require("./routers/home");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
-// const { render } = require("ejs");
 
 app.use(bodyParser.json()); // parse requests of content-type - application/json
 app.use(bodyParser.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 
-// app.use(express.static("public")); // serve static files
+app.use(express.static("public")); // serve static files
 
 // custom middleware example
 // app.use((req, res, next) => {
