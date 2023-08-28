@@ -6,16 +6,29 @@ const { body, validationResult } = require("express-validator");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
+// const { render } = require("ejs");
 
 app.use(bodyParser.json()); // parse requests of content-type - application/json
 app.use(bodyParser.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.static("public")); // serve static files
+
+// app.use(express.static("public")); // serve static files
+
 // custom middleware example
 // app.use((req, res, next) => {
 //   req.user = {id:1, email:"hhh@gg.com"}
 //   next()
 // })
+
 app.use(helmet());
+
+// ejs and views use for server side rendering
+// app.use("view engine", "ejs");
+// app.use("views", "./views");
+
+app.get("/", (req, res) => {
+  res.render("views/home.ejs", { name: "hamid" });
+});
+
 app.get("/api/users", (req, res) => {
   res.json({ data: users, message: "ok" });
 });
